@@ -1,0 +1,67 @@
+/*-- scss:defaults --*/
+
+// fonts
+$font-family-sans-serif: Georgia !default;
+
+// colors
+$body-bg: #fefcfb;
+$body-color: #000 !default;
+$link-color: #0a369d !default;
+$selection-bg: #d9ed92 !default;
+
+// The left hand sidebar
+$grid-sidebar-width: 350px !default;
+
+// The main body
+$grid-body-width: 900px !default;
+
+// The right hand margin bar
+$grid-margin-width: 100px !default;
+
+// The gutter that appears between the above columns
+$grid-column-gutter-width: 1.5rem !default;
+
+// headings
+$presentation-heading-font: Georgia !default;
+
+/*-- scss:rules --*/
+body{
+  font-size: 13;
+}
+
+h1 {
+  font-size: 20;
+  color:#000484 ;
+}
+
+h2 {
+  color: #000;
+  font-size: 14;
+}
+
+h3 {
+  color: #000484;
+  font-size: 14;
+}
+
+// Style for the title banner
+.title-banner .banner{
+  padding: 20px;
+  color: #FFFFFF;
+  margin-bottom: 20px; // Optional: Add space below the banner
+}
+
+.title-banner .author {
+  color: #000;
+  margin: 2px 0; // Optional: Space around author text
+}
+
+.title-banner .date {
+  color: #FFFFFF;
+  margin: 1px 0; // Optional: Space around date text
+}
+
+// Style for content area
+.content {
+  padding: 1px;
+}
