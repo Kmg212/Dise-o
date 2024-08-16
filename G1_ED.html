@@ -68,6 +68,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="G1_ED_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="G1_ED_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="G1_ED_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: white;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: white;
+background: #03045e;
+      }
+</style>
 
 <script src="G1_ED_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="G1_ED_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
@@ -79,9 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <body>
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Manejo básico de R</h1>
+            <p class="subtitle lead">Aplicación en el contexto agronómico</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kenedith Méndez - Gutiérrez </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
 <div id="quarto-sidebar-toc-left" class="sidebar toc-left">
-  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+  <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Tabla de contenido</h2>
    
   <ul>
@@ -113,41 +153,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#actividades-de-práctica" id="toc-actividades-de-práctica" class="nav-link" data-scroll-target="#actividades-de-práctica"><span class="header-section-number">3</span> Actividades de práctica:</a>
   <ul class="collapse">
-  <li><a href="#objetivo.-1" id="toc-objetivo.-1" class="nav-link" data-scroll-target="#objetivo.-1"><span class="header-section-number">3.1</span> Objetivo.</a></li>
-  <li><a href="#contexto-de-los-datos.-1" id="toc-contexto-de-los-datos.-1" class="nav-link" data-scroll-target="#contexto-de-los-datos.-1"><span class="header-section-number">3.2</span> Contexto de los datos.</a></li>
-  <li><a href="#pautas-para-la-práctica-en-clase." id="toc-pautas-para-la-práctica-en-clase." class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-clase."><span class="header-section-number">3.3</span> Pautas para la práctica en clase.</a></li>
-  <li><a href="#pautas-para-la-práctica-en-casa" id="toc-pautas-para-la-práctica-en-casa" class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-casa"><span class="header-section-number">3.4</span> Pautas para la práctica en casa</a></li>
+  <li><a href="#contexto-de-los-datos.-1" id="toc-contexto-de-los-datos.-1" class="nav-link" data-scroll-target="#contexto-de-los-datos.-1"><span class="header-section-number">3.1</span> Contexto de los datos.</a></li>
+  <li><a href="#pautas-para-la-práctica-en-clase." id="toc-pautas-para-la-práctica-en-clase." class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-clase."><span class="header-section-number">3.2</span> Pautas para la práctica en clase.</a></li>
+  <li><a href="#pautas-para-la-práctica-en-casa." id="toc-pautas-para-la-práctica-en-casa." class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-casa."><span class="header-section-number">3.3</span> Pautas para la práctica en casa.</a></li>
   </ul></li>
   </ul>
 </nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
 </div>
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Manejo básico de R</h1>
-<p class="subtitle lead">Aplicación en el contexto agronómico</p>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
-
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kenedith Méndez - Gutiérrez </p>
-          </div>
-  </div>
-    
-  
-    
-  </div>
-  
-
-</header>
 
 <section id="introducción." class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introducción.</h1>
@@ -743,12 +761,9 @@ Levels     Frequency    Cum Frequency       Percent        Cum Percent
 </section>
 <section id="actividades-de-práctica" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Actividades de práctica:</h1>
-<section id="objetivo.-1" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="objetivo.-1"><span class="header-section-number">3.1</span> Objetivo.</h2>
 <p>Aplicar técnicas de estadística descriptiva en R para analizar la influencia de diferentes variables sobre el rendimiento de maíz, de tal manera que estudiante pueda identificar patrones y relaciones entre las variables, que le permitan interpretar los resultados en un contexto agronómico</p>
-</section>
-<section id="contexto-de-los-datos.-1" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="contexto-de-los-datos.-1"><span class="header-section-number">3.2</span> Contexto de los datos.</h2>
+<section id="contexto-de-los-datos.-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="contexto-de-los-datos.-1"><span class="header-section-number">3.1</span> Contexto de los datos.</h2>
 <p>Conjunto de datos bajo el nombre de <strong>Maiz_ERArgentina.xlsx</strong> contiene información sobre el rendimiento de maíz en la provincia Entre Ríos - Argentina. Las variables son:</p>
 <ol type="1">
 <li><p><strong>Año</strong>: Año desde el 2000 al 2023.</p></li>
@@ -762,8 +777,8 @@ Levels     Frequency    Cum Frequency       Percent        Cum Percent
 <li><p><strong>Cultivo Anterior</strong>: Cultivo anterior en la rotación.</p></li>
 </ol>
 </section>
-<section id="pautas-para-la-práctica-en-clase." class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="pautas-para-la-práctica-en-clase."><span class="header-section-number">3.3</span> Pautas para la práctica en clase.</h2>
+<section id="pautas-para-la-práctica-en-clase." class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="pautas-para-la-práctica-en-clase."><span class="header-section-number">3.2</span> Pautas para la práctica en clase.</h2>
 <ol type="1">
 <li><p>Descargue el conjunto de datos.</p></li>
 <li><p>Abra el programa y cree un documento .qmd en formato word.</p></li>
@@ -776,8 +791,8 @@ Levels     Frequency    Cum Frequency       Percent        Cum Percent
 <li><p>Realice un gráfico que evalué la relación entre la cantidad de nitrógeno aplicado y el rendimiento.</p></li>
 </ol>
 </section>
-<section id="pautas-para-la-práctica-en-casa" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="pautas-para-la-práctica-en-casa"><span class="header-section-number">3.4</span> Pautas para la práctica en casa</h2>
+<section id="pautas-para-la-práctica-en-casa." class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="pautas-para-la-práctica-en-casa."><span class="header-section-number">3.3</span> Pautas para la práctica en casa.</h2>
 <ol type="1">
 <li><p>Descargue el conjunto de datos.</p></li>
 <li><p>Cree una columna que se llame &lt;&lt;Duración&gt;&gt; que corresponda a los días de duración del cultivo.</p></li>
@@ -787,7 +802,7 @@ Levels     Frequency    Cum Frequency       Percent        Cum Percent
 <li><p>Cree una tabla de frecuencia usando tanto la variable tipo de suelo como cultivo de rotación.</p></li>
 <li><p>Describa numéricamente las variables por presencia de plagas y/o enfermedades.</p></li>
 <li><p>Realice un gráfico comparativo del rendimiento total por año.</p></li>
-<li><p>Realice un histograma de la variable duración</p></li>
+<li><p>Realice un histograma de la variable duración.</p></li>
 <li><p>Redacte un párrafo de análisis para los resultados del punto 6 al 9.</p></li>
 </ol>
 </section>
