@@ -139,7 +139,7 @@ background: #03045e;
   <li><a href="#paso-2.-verificación-de-supuestos." id="toc-paso-2.-verificación-de-supuestos." class="nav-link" data-scroll-target="#paso-2.-verificación-de-supuestos."><span class="header-section-number">2.2.2</span> Paso 2. Verificación de supuestos.</a></li>
   <li><a href="#paso-3.-estimación-por-intervalos." id="toc-paso-3.-estimación-por-intervalos." class="nav-link" data-scroll-target="#paso-3.-estimación-por-intervalos."><span class="header-section-number">2.2.3</span> Paso 3. Estimación por intervalos.</a></li>
   </ul></li>
-  <li><a href="#prueba-de-hipótesis-dos-muestras-paso-a-paso." id="toc-prueba-de-hipótesis-dos-muestras-paso-a-paso." class="nav-link" data-scroll-target="#prueba-de-hipótesis-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis dos muestras paso a paso.</a>
+  <li><a href="#prueba-de-hipótesis-para-dos-muestras-paso-a-paso." id="toc-prueba-de-hipótesis-para-dos-muestras-paso-a-paso." class="nav-link" data-scroll-target="#prueba-de-hipótesis-para-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis para dos muestras paso a paso.</a>
   <ul class="collapse">
   <li><a href="#paso-previo.-carge-de-librerías." id="toc-paso-previo.-carge-de-librerías." class="nav-link" data-scroll-target="#paso-previo.-carge-de-librerías."><span class="header-section-number">2.3.1</span> Paso previo. Carge de librerías.</a></li>
   <li><a href="#paso-1.-ingresar-y-ajustar-los-datos." id="toc-paso-1.-ingresar-y-ajustar-los-datos." class="nav-link" data-scroll-target="#paso-1.-ingresar-y-ajustar-los-datos."><span class="header-section-number">2.3.2</span> Paso 1. Ingresar y ajustar los datos.</a></li>
@@ -180,19 +180,19 @@ background: #03045e;
 <ul>
 <li><p>Propósito: Compara las medias de dos grupos.</p></li>
 <li><p>Supuestos: Distribución normal de los datos de ambas muestras y que las varianzas sean homogéneas entre ambos grupos (homocedasticidad).</p></li>
-<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> y <code>var.equal=TRUE</code> .</p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> , <code>var.equal=TRUE</code> y <code>alternative</code> para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p></li>
 </ul></li>
 <li><p>Prueba t welch para 2 muestras independientes:</p>
 <ul>
 <li><p>Propósito: Compara las medias de dos grupos.</p></li>
 <li><p>Supuestos: Distribución normal de los datos de ambas muestras y que las varianzas sean diferentes entre ambos grupos (heterocedasticidad).</p></li>
-<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> y <code>var.equal=FALSE</code> .</p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> , <code>var.equal=FALSE</code> y <code>alternative</code> para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p></li>
 </ul></li>
 <li><p>Prueba t de Student para muestras pareadas:</p>
 <ul>
 <li><p>Propósito: Compara las medias de dos grupos de mediciones relacionadas (e.g., mediciones antes y después del tratamiento en los mismos sujetos).</p></li>
 <li><p>Supuestos: Normalidad de las diferencias entre las mediciones.</p></li>
-<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=TRUE</code></p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=TRUE</code> y <code>alternative</code> para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p></li>
 </ul></li>
 </ul>
 </section>
@@ -205,14 +205,14 @@ background: #03045e;
 <li><p>Propósito: Compara las medianas de dos grupos.</p></li>
 <li><p>Uso: Alternativa a la prueba t para muestras independientes cuando los datos no son normales.</p></li>
 <li><p>Supuestos: No requiere normalidad, pero los datos deben ser ordinales o continuos.</p></li>
-<li><p>Función en R: <code>wilcox.test()</code> con argumento <code>paired=FALSE</code>.</p></li>
+<li><p>Función en R: <code>wilcox.test()</code> con argumentos <code>paired=FALSE</code> y <code>alternative</code> para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p></li>
 </ul></li>
 <li><p>Prueba de Wilcoxon:</p>
 <ul>
 <li><p>Propósito: Compara las medianas de dos grupos de mediciones relacionadas.</p></li>
 <li><p>Uso: Alternativa a la prueba t para muestras pareadas cuando los datos no son normales.</p></li>
 <li><p>Supuestos: No requiere normalidad, pero los datos deben ser ordinales o continuos.</p></li>
-<li><p>Función en R: <code>wilcox.test()</code> con argumento <code>paired=TRUE</code>.</p></li>
+<li><p>Función en R: <code>wilcox.test()</code> con argumentos <code>paired=TRUE</code> y <code>alternative</code> para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p></li>
 </ul></li>
 </ul>
 </section>
@@ -224,13 +224,14 @@ background: #03045e;
 <h2 data-number="2.1" class="anchored" data-anchor-id="objetivo."><span class="header-section-number">2.1</span> Objetivo.</h2>
 <p>Proporcionar una comprensión integral de las herramientas y funciones básicas del entorno de R y RStudio para la estadística inferencial con el fin de que los estudiantes desarrollen habilidades que le permitan:</p>
 <ul>
-<li>Realizar estimaciones de la media y varianza poblacional.</li>
+<li>Realizar estimaciones de parámetros poblacionales como la media, la diferencia de medias y la razón de varianzas.</li>
 <li>Realizar pruebas de hipótesis para contrastar diferencias entre dos grupos que permitan la toma de desiciones fundamentada en los datos.</li>
 </ul>
 </section>
 <section id="estimación-para-la-media-paso-a-paso." class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="estimación-para-la-media-paso-a-paso."><span class="header-section-number">2.2</span> Estimación para la media paso a paso.</h2>
-<p><strong>Contexto:</strong> Un agrónomo está investigando el impacto de un fertilizante en el crecimiento de plantas de maíz. Para ello selecciono 1 parcela de 50 m² y sembró 12 semillas de maíz a las que se aplicó 100 kg/ha del fertilizante. Al final del período de crecimiento midió la altura de las plantas (en cm).</p>
+<p><strong>Contexto:</strong> Un agrónomo está investigando el impacto de un fertilizante en el crecimiento de plantas de maíz. Para ello selecciono 1 parcela de 50 m² y sembró 12 semillas de maíz a las que se aplicó 100 kg/ha del fertilizante. Al final del período de crecimiento midió la altura de las plantas (en cm). Los datos fueron:</p>
+<p>74, 67.1, 66.9, 65.1, 69, 67.7, 62.7, 59.7, 79.4, 72.2, 64.1, 59.5</p>
 <section id="paso-1.-ingresar-los-datos." class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="paso-1.-ingresar-los-datos."><span class="header-section-number">2.2.1</span> Paso 1. Ingresar los datos.</h3>
 <div class="cell" data-layout-align="center">
@@ -242,7 +243,7 @@ background: #03045e;
 </section>
 <section id="paso-2.-verificación-de-supuestos." class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="paso-2.-verificación-de-supuestos."><span class="header-section-number">2.2.2</span> Paso 2. Verificación de supuestos.</h3>
-<p>El test de normalidad shapiro &amp; wilks contrasta si las observaciones de una muestra aleatoria provino de un población con distribución normal. Este test es potente para probar la normalidad de un conjunto de datos siempre que se tenga máximo 2000 valores muestrales. A diferencia de otros test como el test K-S no permite probar la bondad de ajuste de los datos para distribuciones distintas de la distribución normal.</p>
+<p><strong>El test de normalidad shapiro &amp; wilks</strong> contrasta si las observaciones de una muestra aleatoria provino de un población con distribución normal. Este test es potente para probar la normalidad de un conjunto de datos siempre que se tenga máximo 2000 valores muestrales. A diferencia de otros test como el test K-S no permite probar la bondad de ajuste de los datos para distribuciones distintas de la distribución normal.</p>
 <p><strong>Estadístico de prueba:</strong></p>
 <p><span class="math inline">\(W=\frac{b^2}{\sum(x_i-\bar{x})^2}\)</span></p>
 <p><strong>Hipótesis estadísticas:</strong></p>
@@ -266,7 +267,7 @@ W = 0.95692, p-value = 0.7392</code></pre>
 </section>
 <section id="paso-3.-estimación-por-intervalos." class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="paso-3.-estimación-por-intervalos."><span class="header-section-number">2.2.3</span> Paso 3. Estimación por intervalos.</h3>
-<p>El argumento <code>conf.level=k</code> se emplea para indicar el nivel de confianza de la estimación por intervalo.</p>
+<p>El argumento <code>conf.level=k</code> de la función <code>t.test()</code> se emplea para indicar el nivel de confianza de la estimación por intervalo para la media poblacional.</p>
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
@@ -288,19 +289,78 @@ mean of x
 </div>
 </section>
 </section>
-<section id="prueba-de-hipótesis-dos-muestras-paso-a-paso." class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="prueba-de-hipótesis-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis dos muestras paso a paso.</h2>
+<section id="prueba-de-hipótesis-para-dos-muestras-paso-a-paso." class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="prueba-de-hipótesis-para-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis para dos muestras paso a paso.</h2>
 <p><strong>Contexto:</strong> Un agrónomo está investigando el impacto de dos tipos diferentes de fertilizantes en el crecimiento de plantas de maíz. Para ello selecciono 2 parcela de 50 m² cada una y similares en términos de suelo, ubicación y condiciones climáticas. En cada parcela sembró 12 semillas de maíz y les aplicó 100 kg/ha del fertilizante correspondiente. Al final del período de crecimiento midió la altura de las plantas (en cm).</p>
+<table class="table">
+<caption>Datos del ejemplo 1 de la presentación fundamentos de inferencia estadística.</caption>
+<thead>
+<tr class="header">
+<th>Fertilizante A</th>
+<th>Fertilizante B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>74</td>
+<td>77.4</td>
+</tr>
+<tr class="even">
+<td>67.1</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td>66.9</td>
+<td>74.6</td>
+</tr>
+<tr class="even">
+<td>65.1</td>
+<td>75</td>
+</tr>
+<tr class="odd">
+<td>69</td>
+<td>68.9</td>
+</tr>
+<tr class="even">
+<td>67.7</td>
+<td>78.4</td>
+</tr>
+<tr class="odd">
+<td>62.7</td>
+<td>71.5</td>
+</tr>
+<tr class="even">
+<td>59.7</td>
+<td>68.6</td>
+</tr>
+<tr class="odd">
+<td>79.4</td>
+<td>70.8</td>
+</tr>
+<tr class="even">
+<td>72.2</td>
+<td>64.9</td>
+</tr>
+<tr class="odd">
+<td>64.1</td>
+<td>85.1</td>
+</tr>
+<tr class="even">
+<td>59.5</td>
+<td>76.7</td>
+</tr>
+</tbody>
+</table>
 <section id="paso-previo.-carge-de-librerías." class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="paso-previo.-carge-de-librerías."><span class="header-section-number">2.3.1</span> Paso previo. Carge de librerías.</h3>
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqplotr) </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descriptr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqplotr) </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descriptr)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
@@ -312,7 +372,7 @@ mean of x
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>FertA<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">74</span>,<span class="fl">67.1</span>,<span class="fl">66.9</span>,<span class="fl">65.1</span>,<span class="dv">69</span>,<span class="fl">67.7</span>,<span class="fl">62.7</span>,<span class="fl">59.7</span>,<span class="fl">79.4</span>,<span class="fl">72.2</span>,<span class="fl">64.1</span>,<span class="fl">59.5</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>FertB<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">77.4</span>,<span class="dv">75</span>,<span class="fl">74.6</span>,<span class="dv">75</span>,<span class="fl">68.9</span>,<span class="fl">78.4</span>,<span class="fl">71.5</span>,<span class="fl">68.6</span>,<span class="fl">70.8</span>,<span class="fl">64.9</span>,<span class="fl">85.1</span>,<span class="fl">76.7</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Fertilizante<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">12</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">12</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Fertilizante<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Fertilizante A"</span>,<span class="dv">12</span>), <span class="fu">rep</span>(<span class="st">"Fertilizante B"</span>,<span class="dv">12</span>))</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Altura<span class="ot">&lt;-</span><span class="fu">c</span>(FertA,FertB)</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Datos<span class="ot">&lt;-</span><span class="fu">data.frame</span>(Fertilizante, Altura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
@@ -320,7 +380,7 @@ mean of x
 </section>
 <section id="paso-2.-verificación-de-supuestos.-1" class="level3" data-number="2.3.3">
 <h3 data-number="2.3.3" class="anchored" data-anchor-id="paso-2.-verificación-de-supuestos.-1"><span class="header-section-number">2.3.3</span> Paso 2. Verificación de supuestos.</h3>
-<p>Al tratarse de un diseño de dos muestras independientes se verifica tanto el supuesto de normalidad con el test de shapiro &amp; wilks y la homocedasticidad con la prueba de razón de varianzas.</p>
+<p>Al tratarse de un diseño de dos muestras independientes se verifica primero el supuesto de normalidad con el test de shapiro &amp; wilks para ambos grupos.</p>
 <section id="prueba-de-normalidad." class="level4" data-number="2.3.3.1">
 <h4 data-number="2.3.3.1" class="anchored" data-anchor-id="prueba-de-normalidad."><span class="header-section-number">2.3.3.1</span> Prueba de normalidad.</h4>
 <p><strong>Estadístico de prueba:</strong></p>
@@ -333,23 +393,7 @@ mean of x
 <div class="cell" data-layout-align="center">
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">sample=</span>Altura))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_point</span>()<span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>()<span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Fertilizante,<span class="at">ncol =</span> <span class="dv">2</span>,<span class="at">scales =</span> <span class="st">"free"</span>)<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="G2_EI_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="624"></p>
-</figure>
-</div>
-</div>
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -360,7 +404,7 @@ W = 0.95692, p-value = 0.7392</code></pre>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -370,9 +414,40 @@ data:  FertB
 W = 0.97185, p-value = 0.9292</code></pre>
 </div>
 </div>
+<p><strong>Gráfico Q-Q.</strong></p>
+<p>Los gráfico QQ (Quantile-Quantile) es una herramienta visual utilizada para evaluar si un conjunto de datos sigue una distribución en particular al compara los cuantiles de una muestra de datos con los cuantiles de una distribución teórica.</p>
+<p>Aspectos a interpretar en a la figura:</p>
+<ul>
+<li><p><strong>Alineación con la línea de referencia</strong>: Si los puntos se alinean aproximadamente a lo largo de la línea y dentro de las bandas de confianza, los datos probablemente siguen una distribución normal. Desvios en la alineación pueden indicar:</p>
+<ul>
+<li><p><strong>Sesgo Positivo:</strong> Si los puntos se encuentran por debajo de la línea en los extremos negativos y por encima en los extremos positivos.</p></li>
+<li><p><strong>Sesgo Negativo:</strong> Si los puntos se encuentran por encima de la línea en los extremos negativos y por debajo en los extremos positivos.</p></li>
+</ul></li>
+<li><p><strong>Curvaturas en los extremos</strong>: Si los puntos en los extremos (colas) se curvan hacia arriba o hacia abajo, esto puede sugerir colas más pesadas (hacia arriba) o más ligeras (hacia abajo) que las de una distribución normal.</p></li>
+<li><p><strong>Puntos aislados</strong>: Puntos que se desvían significativamente de la línea de referencia pueden indicar valores atípicos o datos que no siguen la distribución normal esperada.</p></li>
+</ul>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">sample=</span>Altura))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_point</span>()<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>()<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Fertilizante,<span class="at">ncol =</span> <span class="dv">2</span>,<span class="at">scales =</span> <span class="st">"free"</span>)<span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Valor teórico"</span>, <span class="at">y=</span><span class="st">"Valor observado"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="816"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="prueba-de-homocedasticidad." class="level4" data-number="2.3.3.2">
 <h4 data-number="2.3.3.2" class="anchored" data-anchor-id="prueba-de-homocedasticidad."><span class="header-section-number">2.3.3.2</span> Prueba de homocedasticidad.</h4>
+<p>Al tratarse de un diseño de dos muestras independientes y que los resultado de la prueba de normalidad no encontrarán evidencia a partir de los datos suministrados para rechazar el cumplimiento de este supuesto, se prosigue a verificar la homocedasticidad con la prueba de razón de varianzas.</p>
 <p><strong>Estadístico de prueba:</strong></p>
 <p><span class="math inline">\(F=\frac{S_1^2}{S_2^2}\)</span></p>
 <p><strong>Hipótesis estadísticas:</strong></p>
@@ -404,9 +479,7 @@ ratio of variances
 <section id="paso-3.-ejecute-la-prueba-de-contraste-adecuada." class="level3" data-number="2.3.4">
 <h3 data-number="2.3.4" class="anchored" data-anchor-id="paso-3.-ejecute-la-prueba-de-contraste-adecuada."><span class="header-section-number">2.3.4</span> Paso 3. Ejecute la prueba de contraste adecuada.</h3>
 <p><strong>Objetivo:</strong> Realizar un contraste de hipótesis para determinar si hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes.</p>
-<p><strong>Prueba</strong> parámetrica prueba t.</p>
-<p><strong>Justificación.</strong> Se trata de un diseño de muestras independientes, con comportamiento normal en la variable de respuesta y con varianzas iguales.</p>
-<p>El argumento <code>alternative</code> es para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p>
+<p><strong>Prueba de contraste adecuada:</strong> Para responder al objetivo lo adecuado es emplar la prueba parámetrica t ya que se trata de un diseño de muestras independientes, con comportamiento normal en la variable de respuesta y con varianzas iguales.</p>
 <p><strong>Hipótesis estadísticas:</strong></p>
 <p><span class="math inline">\(H_0:=\)</span> No hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes</p>
 <p><span class="math inline">\(H_1:=\)</span> Hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes</p>
@@ -434,32 +507,40 @@ mean of x mean of y
 <details open="">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Hacer un gráfico.</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Datos,<span class="fu">aes</span>(Fertilizante,Altura))<span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_normal, <span class="at">geom =</span><span class="st">"errorbar"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">width=</span><span class="fl">0.05</span>)<span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="do">### Cajas.</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">x =</span> Fertilizante,<span class="at">y =</span> Altura))<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">'errorbar'</span>, <span class="at">linetype=</span><span class="dv">1</span>, <span class="at">width=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"green2"</span>,<span class="at">color=</span><span class="st">"black"</span>,<span class="at">width=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">"point"</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">shape=</span><span class="dv">8</span>)<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Altura (cm)"</span>,<span class="at">x=</span><span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">method =</span> <span class="st">"t.test"</span>, <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comparisons =</span><span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Fertilizante A"</span>,<span class="st">"Fertilizante B"</span>)) )<span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)<span class="sc">+</span><span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="G2_EI_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="624"></p>
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="816"></p>
 </figure>
 </div>
 </div>
 <details open="">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Hacer un gráfico</span></span>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Barras de media.</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">x =</span> Fertilizante,<span class="at">y =</span> Altura))<span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">'errorbar'</span>, <span class="at">linetype=</span><span class="dv">1</span>, <span class="at">width=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"green2"</span>,<span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">"point"</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">shape=</span><span class="dv">4</span>)<span class="sc">+</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Altura (cm)"</span>,<span class="at">x=</span><span class="st">"Fertilizante"</span>)<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">"bar"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill=</span><span class="st">"green2"</span>, <span class="at">color=</span><span class="st">"black"</span>, <span class="at">width=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_normal,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span><span class="st">"errorbar"</span>,<span class="at">width=</span><span class="fl">0.05</span>)<span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Altura (cm)"</span>,<span class="at">x=</span><span class="st">""</span>)<span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">method =</span> <span class="st">"t.test"</span>, <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comparisons =</span><span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"Fertilizante A"</span>,<span class="st">"Fertilizante B"</span>)) )<span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)<span class="sc">+</span><span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="G2_EI_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="624"></p>
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="816"></p>
 </figure>
 </div>
 </div>
