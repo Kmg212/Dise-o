@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kenedith Méndez - Gutiérrez">
+
+<title>Inferencia estadística con R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="G2_EI_files/libs/clipboard/clipboard.min.js"></script>
+<script src="G2_EI_files/libs/quarto-html/quarto.js"></script>
+<script src="G2_EI_files/libs/quarto-html/popper.min.js"></script>
+<script src="G2_EI_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="G2_EI_files/libs/quarto-html/anchor.min.js"></script>
+<link href="G2_EI_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="G2_EI_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="G2_EI_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="G2_EI_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="G2_EI_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: white;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: white;
+background: #03045e;
+      }
+</style>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Inferencia estadística con R</h1>
+            <p class="subtitle lead">Aplicación en el contexto agronómico</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kenedith Méndez - Gutiérrez </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenido</h2>
+   
+  <ul>
+  <li><a href="#introducción." id="toc-introducción." class="nav-link active" data-scroll-target="#introducción."><span class="header-section-number">1</span> Introducción.</a>
+  <ul class="collapse">
+  <li><a href="#tipos-de-pruebas-estadísticas." id="toc-tipos-de-pruebas-estadísticas." class="nav-link" data-scroll-target="#tipos-de-pruebas-estadísticas."><span class="header-section-number">1.1</span> Tipos de pruebas estadísticas.</a>
+  <ul class="collapse">
+  <li><a href="#pruebas-paramétricas-y-semiparamétricas." id="toc-pruebas-paramétricas-y-semiparamétricas." class="nav-link" data-scroll-target="#pruebas-paramétricas-y-semiparamétricas."><span class="header-section-number">1.1.1</span> Pruebas paramétricas y semiparamétricas.</a></li>
+  <li><a href="#pruebas-no-paramétricas" id="toc-pruebas-no-paramétricas" class="nav-link" data-scroll-target="#pruebas-no-paramétricas"><span class="header-section-number">1.1.2</span> Pruebas no paramétricas</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#paso-a-paso---práctica-dirigida." id="toc-paso-a-paso---práctica-dirigida." class="nav-link" data-scroll-target="#paso-a-paso---práctica-dirigida."><span class="header-section-number">2</span> Paso a paso - práctica dirigida.</a>
+  <ul class="collapse">
+  <li><a href="#objetivo." id="toc-objetivo." class="nav-link" data-scroll-target="#objetivo."><span class="header-section-number">2.1</span> Objetivo.</a></li>
+  <li><a href="#estimación-para-la-media-paso-a-paso." id="toc-estimación-para-la-media-paso-a-paso." class="nav-link" data-scroll-target="#estimación-para-la-media-paso-a-paso."><span class="header-section-number">2.2</span> Estimación para la media paso a paso.</a>
+  <ul class="collapse">
+  <li><a href="#paso-1.-ingresar-los-datos." id="toc-paso-1.-ingresar-los-datos." class="nav-link" data-scroll-target="#paso-1.-ingresar-los-datos."><span class="header-section-number">2.2.1</span> Paso 1. Ingresar los datos.</a></li>
+  <li><a href="#paso-2.-verificación-de-supuestos." id="toc-paso-2.-verificación-de-supuestos." class="nav-link" data-scroll-target="#paso-2.-verificación-de-supuestos."><span class="header-section-number">2.2.2</span> Paso 2. Verificación de supuestos.</a></li>
+  <li><a href="#paso-3.-estimación-por-intervalos." id="toc-paso-3.-estimación-por-intervalos." class="nav-link" data-scroll-target="#paso-3.-estimación-por-intervalos."><span class="header-section-number">2.2.3</span> Paso 3. Estimación por intervalos.</a></li>
+  </ul></li>
+  <li><a href="#prueba-de-hipótesis-dos-muestras-paso-a-paso." id="toc-prueba-de-hipótesis-dos-muestras-paso-a-paso." class="nav-link" data-scroll-target="#prueba-de-hipótesis-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis dos muestras paso a paso.</a>
+  <ul class="collapse">
+  <li><a href="#paso-previo.-carge-de-librerías." id="toc-paso-previo.-carge-de-librerías." class="nav-link" data-scroll-target="#paso-previo.-carge-de-librerías."><span class="header-section-number">2.3.1</span> Paso previo. Carge de librerías.</a></li>
+  <li><a href="#paso-1.-ingresar-y-ajustar-los-datos." id="toc-paso-1.-ingresar-y-ajustar-los-datos." class="nav-link" data-scroll-target="#paso-1.-ingresar-y-ajustar-los-datos."><span class="header-section-number">2.3.2</span> Paso 1. Ingresar y ajustar los datos.</a></li>
+  <li><a href="#paso-2.-verificación-de-supuestos.-1" id="toc-paso-2.-verificación-de-supuestos.-1" class="nav-link" data-scroll-target="#paso-2.-verificación-de-supuestos.-1"><span class="header-section-number">2.3.3</span> Paso 2. Verificación de supuestos.</a></li>
+  <li><a href="#paso-3.-ejecute-la-prueba-de-contraste-adecuada." id="toc-paso-3.-ejecute-la-prueba-de-contraste-adecuada." class="nav-link" data-scroll-target="#paso-3.-ejecute-la-prueba-de-contraste-adecuada."><span class="header-section-number">2.3.4</span> Paso 3. Ejecute la prueba de contraste adecuada.</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#actividades-de-práctica" id="toc-actividades-de-práctica" class="nav-link" data-scroll-target="#actividades-de-práctica"><span class="header-section-number">3</span> Actividades de práctica:</a>
+  <ul class="collapse">
+  <li><a href="#problemas." id="toc-problemas." class="nav-link" data-scroll-target="#problemas."><span class="header-section-number">3.1</span> Problemas.</a></li>
+  <li><a href="#pautas-para-la-práctica-en-clase." id="toc-pautas-para-la-práctica-en-clase." class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-clase."><span class="header-section-number">3.2</span> Pautas para la práctica en clase.</a></li>
+  <li><a href="#pautas-para-la-práctica-en-casa." id="toc-pautas-para-la-práctica-en-casa." class="nav-link" data-scroll-target="#pautas-para-la-práctica-en-casa."><span class="header-section-number">3.3</span> Pautas para la práctica en casa.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introducción." class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introducción.</h1>
+<p>La estadística inferencial juega un papel crucial en la agronomía al permitirle a los profesionales realizar estimaciones y tomar decisiones basadas en datos limitados. Esta rama de la estadística aborda:</p>
+<ol type="1">
+<li><p>La estimación por intervalos que son herramientas utilizada para construir rangos dentro de los cuales se espera que se encuentre un parámetro poblacional, como el rendimiento de un cultivo o la eficacia de un tratamiento, proporcionando una medida de precisión y confianza en los resultados obtenidos a partir de una muestra.</p></li>
+<li><p>La prueba de hipótesis que es una herramienta fundamental para evaluar afirmaciones o teorías sobre las poblaciones, como determinar si un nuevo fertilizante mejora significativamente el crecimiento de las plantas en comparación con un fertilizante estándar.</p></li>
+</ol>
+<section id="tipos-de-pruebas-estadísticas." class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="tipos-de-pruebas-estadísticas."><span class="header-section-number">1.1</span> Tipos de pruebas estadísticas.</h2>
+<section id="pruebas-paramétricas-y-semiparamétricas." class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="pruebas-paramétricas-y-semiparamétricas."><span class="header-section-number">1.1.1</span> Pruebas paramétricas y semiparamétricas.</h3>
+<p>Estas pruebas asumen que la distribución de los datos siguen un comportamiento en particular.</p>
+<ul>
+<li><p>Prueba t para 2 muestras independientes:</p>
+<ul>
+<li><p>Propósito: Compara las medias de dos grupos.</p></li>
+<li><p>Supuestos: Distribución normal de los datos de ambas muestras y que las varianzas sean homogéneas entre ambos grupos (homocedasticidad).</p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> y <code>var.equal=TRUE</code> .</p></li>
+</ul></li>
+<li><p>Prueba t welch para 2 muestras independientes:</p>
+<ul>
+<li><p>Propósito: Compara las medias de dos grupos.</p></li>
+<li><p>Supuestos: Distribución normal de los datos de ambas muestras y que las varianzas sean diferentes entre ambos grupos (heterocedasticidad).</p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=FALSE</code> y <code>var.equal=FALSE</code> .</p></li>
+</ul></li>
+<li><p>Prueba t de Student para muestras pareadas:</p>
+<ul>
+<li><p>Propósito: Compara las medias de dos grupos de mediciones relacionadas (e.g., mediciones antes y después del tratamiento en los mismos sujetos).</p></li>
+<li><p>Supuestos: Normalidad de las diferencias entre las mediciones.</p></li>
+<li><p>Función en R: <code>t.test()</code> con argumentos <code>paired=TRUE</code></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="pruebas-no-paramétricas" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="pruebas-no-paramétricas"><span class="header-section-number">1.1.2</span> Pruebas no paramétricas</h3>
+<p>Estas pruebas no asumen una distribución de los datos ajustada a la distribución normal y son la alternativa a las pruebas paramétricas y semiparamétricas.</p>
+<ul>
+<li><p>Prueba de Mann-Whitney Wilcoxon:</p>
+<ul>
+<li><p>Propósito: Compara las medianas de dos grupos.</p></li>
+<li><p>Uso: Alternativa a la prueba t para muestras independientes cuando los datos no son normales.</p></li>
+<li><p>Supuestos: No requiere normalidad, pero los datos deben ser ordinales o continuos.</p></li>
+<li><p>Función en R: <code>wilcox.test()</code> con argumento <code>paired=FALSE</code>.</p></li>
+</ul></li>
+<li><p>Prueba de Wilcoxon:</p>
+<ul>
+<li><p>Propósito: Compara las medianas de dos grupos de mediciones relacionadas.</p></li>
+<li><p>Uso: Alternativa a la prueba t para muestras pareadas cuando los datos no son normales.</p></li>
+<li><p>Supuestos: No requiere normalidad, pero los datos deben ser ordinales o continuos.</p></li>
+<li><p>Función en R: <code>wilcox.test()</code> con argumento <code>paired=TRUE</code>.</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="paso-a-paso---práctica-dirigida." class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Paso a paso - práctica dirigida.</h1>
+<section id="objetivo." class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="objetivo."><span class="header-section-number">2.1</span> Objetivo.</h2>
+<p>Proporcionar una comprensión integral de las herramientas y funciones básicas del entorno de R y RStudio para la estadística inferencial con el fin de que los estudiantes desarrollen habilidades que le permitan:</p>
+<ul>
+<li>Realizar estimaciones de la media y varianza poblacional.</li>
+<li>Realizar pruebas de hipótesis para contrastar diferencias entre dos grupos que permitan la toma de desiciones fundamentada en los datos.</li>
+</ul>
+</section>
+<section id="estimación-para-la-media-paso-a-paso." class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="estimación-para-la-media-paso-a-paso."><span class="header-section-number">2.2</span> Estimación para la media paso a paso.</h2>
+<p><strong>Contexto:</strong> Un agrónomo está investigando el impacto de un fertilizante en el crecimiento de plantas de maíz. Para ello selecciono 1 parcela de 50 m² y sembró 12 semillas de maíz a las que se aplicó 100 kg/ha del fertilizante. Al final del período de crecimiento midió la altura de las plantas (en cm).</p>
+<section id="paso-1.-ingresar-los-datos." class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="paso-1.-ingresar-los-datos."><span class="header-section-number">2.2.1</span> Paso 1. Ingresar los datos.</h3>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>FertA<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">74</span>,<span class="fl">67.1</span>,<span class="fl">66.9</span>,<span class="fl">65.1</span>,<span class="dv">69</span>,<span class="fl">67.7</span>,<span class="fl">62.7</span>,<span class="fl">59.7</span>,<span class="fl">79.4</span>,<span class="fl">72.2</span>,<span class="fl">64.1</span>,<span class="fl">59.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="paso-2.-verificación-de-supuestos." class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="paso-2.-verificación-de-supuestos."><span class="header-section-number">2.2.2</span> Paso 2. Verificación de supuestos.</h3>
+<p>El test de normalidad shapiro &amp; wilks contrasta si las observaciones de una muestra aleatoria provino de un población con distribución normal. Este test es potente para probar la normalidad de un conjunto de datos siempre que se tenga máximo 2000 valores muestrales. A diferencia de otros test como el test K-S no permite probar la bondad de ajuste de los datos para distribuciones distintas de la distribución normal.</p>
+<p><strong>Estadístico de prueba:</strong></p>
+<p><span class="math inline">\(W=\frac{b^2}{\sum(x_i-\bar{x})^2}\)</span></p>
+<p><strong>Hipótesis estadísticas:</strong></p>
+<p><span class="math inline">\(H_0:=\)</span> Los datos provienen de una población que se ajusta a la distribución normal.</p>
+<p><span class="math inline">\(H_1:=\)</span> Los datos provienen de una población que no se ajusta a la distribución normal.</p>
+<p><strong>Regla de Interpretación.</strong></p>
+<p>Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>. Mientras que valores de p menores al nivel de signficancia respaldan la <span class="math inline">\(H_1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  FertA
+W = 0.95692, p-value = 0.7392</code></pre>
+</div>
+</div>
+</section>
+<section id="paso-3.-estimación-por-intervalos." class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="paso-3.-estimación-por-intervalos."><span class="header-section-number">2.2.3</span> Paso 3. Estimación por intervalos.</h3>
+<p>El argumento <code>conf.level=k</code> se emplea para indicar el nivel de confianza de la estimación por intervalo.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(FertA,<span class="at">conf.level =</span> <span class="fl">0.95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  FertA
+t = 40.005, df = 11, p-value = 2.889e-13
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ 63.58151 70.98515
+sample estimates:
+mean of x 
+ 67.28333 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="prueba-de-hipótesis-dos-muestras-paso-a-paso." class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="prueba-de-hipótesis-dos-muestras-paso-a-paso."><span class="header-section-number">2.3</span> Prueba de hipótesis dos muestras paso a paso.</h2>
+<p><strong>Contexto:</strong> Un agrónomo está investigando el impacto de dos tipos diferentes de fertilizantes en el crecimiento de plantas de maíz. Para ello selecciono 2 parcela de 50 m² cada una y similares en términos de suelo, ubicación y condiciones climáticas. En cada parcela sembró 12 semillas de maíz y les aplicó 100 kg/ha del fertilizante correspondiente. Al final del período de crecimiento midió la altura de las plantas (en cm).</p>
+<section id="paso-previo.-carge-de-librerías." class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="paso-previo.-carge-de-librerías."><span class="header-section-number">2.3.1</span> Paso previo. Carge de librerías.</h3>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqplotr) </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(descriptr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="paso-1.-ingresar-y-ajustar-los-datos." class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="paso-1.-ingresar-y-ajustar-los-datos."><span class="header-section-number">2.3.2</span> Paso 1. Ingresar y ajustar los datos.</h3>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>FertA<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">74</span>,<span class="fl">67.1</span>,<span class="fl">66.9</span>,<span class="fl">65.1</span>,<span class="dv">69</span>,<span class="fl">67.7</span>,<span class="fl">62.7</span>,<span class="fl">59.7</span>,<span class="fl">79.4</span>,<span class="fl">72.2</span>,<span class="fl">64.1</span>,<span class="fl">59.5</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>FertB<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">77.4</span>,<span class="dv">75</span>,<span class="fl">74.6</span>,<span class="dv">75</span>,<span class="fl">68.9</span>,<span class="fl">78.4</span>,<span class="fl">71.5</span>,<span class="fl">68.6</span>,<span class="fl">70.8</span>,<span class="fl">64.9</span>,<span class="fl">85.1</span>,<span class="fl">76.7</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Fertilizante<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">12</span>), <span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">12</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>Altura<span class="ot">&lt;-</span><span class="fu">c</span>(FertA,FertB)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>Datos<span class="ot">&lt;-</span><span class="fu">data.frame</span>(Fertilizante, Altura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="paso-2.-verificación-de-supuestos.-1" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="paso-2.-verificación-de-supuestos.-1"><span class="header-section-number">2.3.3</span> Paso 2. Verificación de supuestos.</h3>
+<p>Al tratarse de un diseño de dos muestras independientes se verifica tanto el supuesto de normalidad con el test de shapiro &amp; wilks y la homocedasticidad con la prueba de razón de varianzas.</p>
+<section id="prueba-de-normalidad." class="level4" data-number="2.3.3.1">
+<h4 data-number="2.3.3.1" class="anchored" data-anchor-id="prueba-de-normalidad."><span class="header-section-number">2.3.3.1</span> Prueba de normalidad.</h4>
+<p><strong>Estadístico de prueba:</strong></p>
+<p><span class="math inline">\(W=\frac{b^2}{\sum(x_i-\bar{x})^2}\)</span></p>
+<p><strong>Hipótesis estadísticas:</strong></p>
+<p><span class="math inline">\(H_0:=\)</span> Los datos provienen de una población que se ajusta a la distribución normal.</p>
+<p><span class="math inline">\(H_1:=\)</span> Los datos provienen de una población que no se ajusta a la distribución normal.</p>
+<p><strong>Regla de Interpretación.</strong></p>
+<p>Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>. Mientras que valores de p menores al nivel de signficancia respaldan la <span class="math inline">\(H_1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">sample=</span>Altura))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_band</span>(<span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_point</span>()<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>()<span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(.<span class="sc">~</span>Fertilizante,<span class="at">ncol =</span> <span class="dv">2</span>,<span class="at">scales =</span> <span class="st">"free"</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  FertA
+W = 0.95692, p-value = 0.7392</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(FertB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  FertB
+W = 0.97185, p-value = 0.9292</code></pre>
+</div>
+</div>
+</section>
+<section id="prueba-de-homocedasticidad." class="level4" data-number="2.3.3.2">
+<h4 data-number="2.3.3.2" class="anchored" data-anchor-id="prueba-de-homocedasticidad."><span class="header-section-number">2.3.3.2</span> Prueba de homocedasticidad.</h4>
+<p><strong>Estadístico de prueba:</strong></p>
+<p><span class="math inline">\(F=\frac{S_1^2}{S_2^2}\)</span></p>
+<p><strong>Hipótesis estadísticas:</strong></p>
+<p><span class="math inline">\(H_0:=\)</span> La variación de la variable respuesta es la misma en ambos grupos.</p>
+<p><span class="math inline">\(H_1:=\)</span> La variación de la variable respuesta entre ambos grupos es diferente.</p>
+<p><strong>Regla de Interpretación.</strong></p>
+<p>Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>. Mientras que valores de p menores al nivel de signficancia respaldan la <span class="math inline">\(H_1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var.test</span>(FertA,FertB)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    F test to compare two variances
+
+data:  FertA and FertB
+F = 1.1737, num df = 11, denom df = 11, p-value = 0.7953
+alternative hypothesis: true ratio of variances is not equal to 1
+95 percent confidence interval:
+ 0.3378683 4.0769167
+sample estimates:
+ratio of variances 
+          1.173653 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="paso-3.-ejecute-la-prueba-de-contraste-adecuada." class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="paso-3.-ejecute-la-prueba-de-contraste-adecuada."><span class="header-section-number">2.3.4</span> Paso 3. Ejecute la prueba de contraste adecuada.</h3>
+<p><strong>Objetivo:</strong> Realizar un contraste de hipótesis para determinar si hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes.</p>
+<p><strong>Prueba</strong> parámetrica prueba t.</p>
+<p><strong>Justificación.</strong> Se trata de un diseño de muestras independientes, con comportamiento normal en la variable de respuesta y con varianzas iguales.</p>
+<p>El argumento <code>alternative</code> es para indicar el tipo de contraste, “two.sided” para dos colas, “greater” para unilateral a la derecha, “less” para unilateral a izquierda.</p>
+<p><strong>Hipótesis estadísticas:</strong></p>
+<p><span class="math inline">\(H_0:=\)</span> No hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes</p>
+<p><span class="math inline">\(H_1:=\)</span> Hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes</p>
+<p><strong>Regla de Interpretación.</strong></p>
+<p>Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>. Mientras que valores de p menores al nivel de signficancia respaldan la <span class="math inline">\(H_1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(FertA,FertB,<span class="at">paired =</span> <span class="cn">FALSE</span>,<span class="at">var.equal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  FertA and FertB
+t = -2.8944, df = 22, p-value = 0.008412
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -11.371852  -1.878148
+sample estimates:
+mean of x mean of y 
+ 67.28333  73.90833 </code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Hacer un gráfico.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Datos,<span class="fu">aes</span>(Fertilizante,Altura))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> mean_cl_normal, <span class="at">geom =</span><span class="st">"errorbar"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">width=</span><span class="fl">0.05</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span><span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Hacer un gráfico</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">x =</span> Fertilizante,<span class="at">y =</span> Altura))<span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">'errorbar'</span>, <span class="at">linetype=</span><span class="dv">1</span>, <span class="at">width=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"green2"</span>,<span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">"point"</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">shape=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Altura (cm)"</span>,<span class="at">x=</span><span class="st">"Fertilizante"</span>)<span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Altura)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="G2_EI_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Conclusión.</strong> A partir de los resultados y con un nivel de significancia del 0.05 hay evidencia estadistica para respaldar la idea de que hay una diferencia significativa en la altura promedio de las plantas entre los dos tipos de fertilizantes (t=-2.89, p=0.008), siendo el fertilizante B el que propicia una mayor altura, <span class="math inline">\((IC95[-11.3 : -1.88])\)</span>.</p>
+</section>
+</section>
+</section>
+<section id="actividades-de-práctica" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Actividades de práctica:</h1>
+<p>Aplicar técnicas de estadística inferencial en R para analizar estimar parametros poblacionales y contrastas afirmaciones, que le permitan la toma de desiciones fundamentada en los datos.</p>
+<section id="problemas." class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="problemas."><span class="header-section-number">3.1</span> Problemas.</h2>
+<ol type="1">
+<li><p>Para estimar el rendimiento promedio del maíz bajo el efecto de un herbicida, se toma una muestra de tamaño 40 y se obtiene los siguientes rendimientos en qq/ha. Construir con los datos los intervalos de confianza del 95% y 99% para 𝛍.</p>
+<p>75.8 - 73.0 - 56.9 - 72.2 - 29.6 - 32.5 - 64.8 - 96.2 - 77.5 - 55.0 - 44.9 - 68.7 42.3 - 61.0 - 33.1 - 32.6 - 47.9 - 57.2 - 59.2 - 89.8 - 71.0 - 62.1 - 62.9 - 51.3 - 84.2 - 72.0 - 79.4 - 78.4 - 81.3 - 74.6 - 51.2 - 54.0 - 54.7 - 49.9 - 53.5 - 49.6 - 58.3 - 48.3 - 73.3 - 73.4</p></li>
+<li><p>El espárrago es una planta perenne cuyo cultivo comercial puede tener una duración de 15 años y su implantación es costosa. Dada la extensión del sistema radicular, la profundidad del suelo es fundamental, considerándose indispensable contar con un promedio mínimo de 80 cm de sustrato permeable. Se realizan 14 determinaciones de la profundidad del sustrato permeable (en cm) en puntos tomados al azar en dos campos (A y B). Los resultados fueron los siguientes:</p>
+<p>A: 72 - 78 - 86 - 78 - 90 - 104 - 76 - 70 - 83 - 75 - 90 - 81 - 85 - 72</p>
+<p>B: 78 - 82 - 68 - 68 - 74 - 81 - 85 - 73 - 75 - 89 - 100 - 91 - 82 - 75</p>
+<p>A partir de los intervalos de confianza al 95% determinar si estos campos son aptos para el cultivo.</p></li>
+<li><p>Se acepta que después de 3 años de almacenamiento el vigor de un arbusto forrajero medido como peso seco alcanzado a los 20 días de la germinación es de 45 mg promedio. Un nuevo método de almacenamiento se propone para aumentar el vigor. Se evalúan para ello 20 lotes de 10 semillas cada uno y al cabo de 3 años se las hace germinar, obteniéndose los siguientes resultados de peso seco promedio a los 20 días: 49 - 43 - 56 - 57 - 59 - 65 52 - 51 - 50 - 55 - 60 - 65 - 53 - 57 - 67 - 56 - 53 - 37 - 45 - 42. Realizar una prueba de hipótesis para determinar la aficacia del nuevo método de almacenamiento con un nivel de significación α = 0.01.</p></li>
+<li><p>Se está experimentando con un herbicida en maíz, y para ponerlo a prueba se evalúan los rendimientos de 12 parcelas experimentales. En 6 de ellas se utilizó el nuevo herbicida y en las restantes un herbicida tradicional como control. Los resultados del ensayo, expresados en quintales por hectárea, son los siguientes:</p>
+<p>Nuevo herbicida: 68.1 - 74.6 - 64.4 - 69.2 - 61.8 - 57.9</p>
+<p>Viejo herbicida: 64.7 - 62.5 - 66.8 - 69.2 - 53.9 - 58.5</p>
+<p>Realizar un contraste de hipótesis para determinar el efecto del herbicida. Utiliza un nivel de significación de significación α = 0.10</p></li>
+<li><p>Para probar la eficacia de un tratamiento de poda en un bosque de Raulí, un investigador decide comparar el incremento del diámetro de los fustes de los árboles podados, con el incremento en árboles sin poda. Para ello se localizan 20 lotes de los cuales a 10 se los poda y al resto no. Al cabo de 3 años se obtienen los incrementos promedio para cada lote siendo los resultados los siguientes (en cm):</p>
+<p>Stand con poda: 0.29 - 0.305 - 0.28 - 0.32 - 0.35 - 0.297 - 0.30 - 0.298 - 0.315 0.324</p>
+<p>Stand sin poda: 0.30 - 0.303 - 0.27 - 0.30 - 0.32 - 0.31 - 0.28 - 0.302 - 0.298 0.301</p>
+<p>Realizar un contraste de hipótesis para probar la eficacia del tratamiento de poda. Utiliza un nivel de significación de significación α = 0.05</p></li>
+<li><p>Un agrónomo está evaluando el efecto de dos métodos de cultivo en la fertilidad del suelo. Se tomaron muestras de suelo en parcela de 20 m² al inicio del estudio y después de 6 meses de aplicar cada método de cultivo (Cultivo tradicional y Cultivo en no-till) para determinar el contenido de nitrógeno (mg/kg). Los datos fueron los siguientes:</p>
+<p>Antes del tratamiento (mg/kg): 45, 44, 46, 47, 45, 44, 46, 45, 47, 44</p>
+<p>Después del tratamiento (mg/kg): 55, 54, 56, 57, 55, 54, 56, 55, 57, 54</p>
+<p>Realizar un contraste de hipótesis para determinar si hay un aumento significativo en el contenido de nitrógeno en el suelo después de aplicar el cultivo en no-till. Utiliza un nivel de significación de 0.01.</p></li>
+</ol>
+</section>
+<section id="pautas-para-la-práctica-en-clase." class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="pautas-para-la-práctica-en-clase."><span class="header-section-number">3.2</span> Pautas para la práctica en clase.</h2>
+<ol type="1">
+<li><p>Abra el programa y cree un documento .qmd en formato word.</p></li>
+<li><p>Cargue las librerías necesarias.</p></li>
+<li><p>Resuelva los prolemas 1 y 5 para ello:</p>
+<ul>
+<li><p>Describa el contexto del problema (Objetivo) y la planeación (Elementos del diseño, Hipótesis estadísticas, Tipo de contraste y diseño de muestras)</p></li>
+<li><p>Ingrese los datos y haga los ajustes requeridos para los análisis.</p></li>
+<li><p>Verifique los supuestos de la técnica e interpretelos.</p></li>
+<li><p>Ejecute la técnica adecuada y gráfique la información. Analice los resultados.</p></li>
+</ul></li>
+</ol>
+</section>
+<section id="pautas-para-la-práctica-en-casa." class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="pautas-para-la-práctica-en-casa."><span class="header-section-number">3.3</span> Pautas para la práctica en casa.</h2>
+<ol type="1">
+<li><p>Abra el programa y cree un documento .qmd en formato word.</p></li>
+<li><p>Cargue las librerías necesarias.</p></li>
+<li><p>Resuelva los prolemas 2, 6 y 4 para ello:</p>
+<ul>
+<li><p>Describa el contexto del problema (Objetivo) y la planeación (Elementos del diseño, Hipótesis estadísticas, Tipo de contraste y diseño de muestras)</p></li>
+<li><p>Ingrese los datos y haga los ajustes requeridos para los análisis.</p></li>
+<li><p>Verifique los supuestos de la técnica e interpretelos.</p></li>
+<li><p>Ejecute la técnica adecuada y gráfique la información. Analice los resultados.</p></li>
+</ul></li>
+</ol>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
