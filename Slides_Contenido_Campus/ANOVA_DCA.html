@@ -430,15 +430,18 @@ Kenedith Méndez - Gutiérrez
 <h2 data-id="quarto-animate-title">Contexto de los datos</h2>
 <p>El porcentaje de humedad relativa (HR) es un factor determinante para el ataque de hongos en semillas. Para evaluar la susceptibilidad de las semillas de maní al ataque de un hongo, Di Rienzo et al., citan un experimento que se realizó en cámaras de cría con tres porcentajes de HR: 70%, 80% y 90%. Cinco observaciones fueron tomadas para cada porcentaje de HR, registrándose el porcentaje de semillas atacadas en un grupo de cien semillas” (Diseño Y Análisis De Experimentos De López Bautista Y González Ramírez)</p>
 </section>
-<section id="carge-de-librerías." class="slide level2" data-auto-animate="true">
-<h2 data-id="quarto-animate-title">Carge de librerías.</h2>
+<section id="librerías." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Librerías.</h2>
+<p>Recuerde que debe instalar previamente la(s) librería(s) que no ha utilizado antes.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb1-1" class="hljs-ln-code"><a href="#cb1-1"></a><span class="fu">library</span>(ggplot2) </span>
 <span id="cb1-2" class="hljs-ln-code"><a href="#cb1-2"></a><span class="fu">library</span>(tidyverse) </span>
 <span id="cb1-3" class="hljs-ln-code"><a href="#cb1-3"></a><span class="fu">library</span>(agricolae) </span>
 <span id="cb1-4" class="hljs-ln-code"><a href="#cb1-4"></a><span class="fu">library</span>(descriptr)</span>
 <span id="cb1-5" class="hljs-ln-code"><a href="#cb1-5"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-6" class="hljs-ln-code"><a href="#cb1-6"></a><span class="fu">library</span>(lmtest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6" class="hljs-ln-code"><a href="#cb1-6"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb1-7" class="hljs-ln-code"><a href="#cb1-7"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-8" class="hljs-ln-code"><a href="#cb1-8"></a><span class="fu">library</span>(effectsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 
@@ -620,16 +623,17 @@ attr(,"class")
 <h2 data-id="quarto-animate-title">Alternativas gráficas.</h2>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb14-1" class="hljs-ln-code"><a href="#cb14-1"></a><span class="do">## Barras de media.</span></span>
-<span id="cb14-2" class="hljs-ln-code"><a href="#cb14-2"></a>means <span class="ot">&lt;-</span> LSD<span class="sc">$</span>means</span>
-<span id="cb14-3" class="hljs-ln-code"><a href="#cb14-3"></a>means<span class="sc">$</span>factor <span class="ot">&lt;-</span> <span class="fu">rownames</span>(means)</span>
-<span id="cb14-4" class="hljs-ln-code"><a href="#cb14-4"></a>means<span class="sc">$</span>letters<span class="ot">&lt;-</span>LSD<span class="sc">$</span>groups<span class="sc">$</span>groups</span>
-<span id="cb14-5" class="hljs-ln-code"><a href="#cb14-5"></a><span class="fu">ggplot</span>(means, <span class="fu">aes</span>(<span class="at">x =</span> factor, <span class="at">y =</span> Porcentaje)) <span class="sc">+</span></span>
-<span id="cb14-6" class="hljs-ln-code"><a href="#cb14-6"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"green2"</span>, <span class="at">width =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
-<span id="cb14-7" class="hljs-ln-code"><a href="#cb14-7"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Porcentaje <span class="sc">-</span> se, <span class="at">ymax =</span> Porcentaje<span class="sc">+</span> se), </span>
-<span id="cb14-8" class="hljs-ln-code"><a href="#cb14-8"></a>                <span class="at">width =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
-<span id="cb14-9" class="hljs-ln-code"><a href="#cb14-9"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> letters), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb14-10" class="hljs-ln-code"><a href="#cb14-10"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Humedad relativa (%)"</span>, <span class="at">y =</span> <span class="st">"Semillas atacadas por hongos (%)"</span>)<span class="sc">+</span></span>
-<span id="cb14-11" class="hljs-ln-code"><a href="#cb14-11"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span><span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Porcentaje)<span class="sc">+</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-2" class="hljs-ln-code"><a href="#cb14-2"></a>medias <span class="ot">&lt;-</span> LSD<span class="sc">$</span>means</span>
+<span id="cb14-3" class="hljs-ln-code"><a href="#cb14-3"></a>medias<span class="sc">$</span>factor <span class="ot">&lt;-</span> <span class="fu">rownames</span>(medias)</span>
+<span id="cb14-4" class="hljs-ln-code"><a href="#cb14-4"></a>grupos<span class="ot">&lt;-</span>LSD<span class="sc">$</span>groups</span>
+<span id="cb14-5" class="hljs-ln-code"><a href="#cb14-5"></a>means<span class="ot">&lt;-</span><span class="fu">left_join</span>(medias, grupos, <span class="at">by =</span> <span class="fu">join_by</span>(Porcentaje))</span>
+<span id="cb14-6" class="hljs-ln-code"><a href="#cb14-6"></a><span class="fu">ggplot</span>(means, <span class="fu">aes</span>(<span class="at">x =</span> factor, <span class="at">y =</span> Porcentaje)) <span class="sc">+</span></span>
+<span id="cb14-7" class="hljs-ln-code"><a href="#cb14-7"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"green2"</span>, <span class="at">width =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb14-8" class="hljs-ln-code"><a href="#cb14-8"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> Porcentaje <span class="sc">-</span> se, <span class="at">ymax =</span> Porcentaje<span class="sc">+</span> se), </span>
+<span id="cb14-9" class="hljs-ln-code"><a href="#cb14-9"></a>                <span class="at">width =</span> <span class="fl">0.05</span>) <span class="sc">+</span></span>
+<span id="cb14-10" class="hljs-ln-code"><a href="#cb14-10"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> groups), <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">4</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb14-11" class="hljs-ln-code"><a href="#cb14-11"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Humedad relativa (%)"</span>, <span class="at">y =</span> <span class="st">"Semillas atacadas por hongos (%)"</span>)<span class="sc">+</span></span>
+<span id="cb14-12" class="hljs-ln-code"><a href="#cb14-12"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span><span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Porcentaje)<span class="sc">+</span><span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 </section>
@@ -644,25 +648,22 @@ attr(,"class")
 </div></section><section id="alternativas-gráficas.-1" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Alternativas gráficas.</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb15-1" class="hljs-ln-code"><a href="#cb15-1"></a>tb1 <span class="ot">&lt;-</span> LSD<span class="sc">$</span>means</span>
-<span id="cb15-2" class="hljs-ln-code"><a href="#cb15-2"></a>tb1<span class="sc">$</span>factor <span class="ot">&lt;-</span> <span class="fu">rownames</span>(tb1)</span>
-<span id="cb15-3" class="hljs-ln-code"><a href="#cb15-3"></a>tb1<span class="sc">$</span>letters<span class="ot">&lt;-</span>LSD<span class="sc">$</span>groups<span class="sc">$</span>groups</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb15-1" class="hljs-ln-code"><a href="#cb15-1"></a>tb <span class="ot">&lt;-</span> LSD<span class="sc">$</span>groups</span>
+<span id="cb15-2" class="hljs-ln-code"><a href="#cb15-2"></a>tb<span class="sc">$</span>factor <span class="ot">&lt;-</span> <span class="fu">rownames</span>(tb)</span>
+<span id="cb15-3" class="hljs-ln-code"><a href="#cb15-3"></a>tb1<span class="ot">&lt;-</span><span class="fu">left_join</span>(tb, LSD<span class="sc">$</span>means <span class="sc">%&gt;%</span> <span class="fu">select</span>(Porcentaje,Q75,Max), <span class="at">by=</span><span class="fu">join_by</span>(Porcentaje))</span>
 <span id="cb15-4" class="hljs-ln-code"><a href="#cb15-4"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Datos,<span class="fu">aes</span>(<span class="at">x =</span> HR,<span class="at">y =</span> Porcentaje))<span class="sc">+</span></span>
 <span id="cb15-5" class="hljs-ln-code"><a href="#cb15-5"></a>  <span class="fu">stat_boxplot</span>(<span class="at">geom=</span><span class="st">'errorbar'</span>, <span class="at">linetype=</span><span class="dv">1</span>, <span class="at">width=</span><span class="fl">0.06</span>)<span class="sc">+</span></span>
 <span id="cb15-6" class="hljs-ln-code"><a href="#cb15-6"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill=</span><span class="st">"green2"</span>,<span class="at">color=</span><span class="st">"black"</span>,<span class="at">width=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
 <span id="cb15-7" class="hljs-ln-code"><a href="#cb15-7"></a>  <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">"point"</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">shape=</span><span class="dv">8</span>)<span class="sc">+</span></span>
 <span id="cb15-8" class="hljs-ln-code"><a href="#cb15-8"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Semillas atacadas por hongos (%)"</span>,</span>
 <span id="cb15-9" class="hljs-ln-code"><a href="#cb15-9"></a>                        <span class="at">x=</span><span class="st">"Humedad relativa (%)"</span>)<span class="sc">+</span></span>
-<span id="cb15-10" class="hljs-ln-code"><a href="#cb15-10"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> tb1, <span class="fu">aes</span>(<span class="at">x =</span> factor, <span class="at">y =</span> Max, <span class="at">label =</span>letters), </span>
+<span id="cb15-10" class="hljs-ln-code"><a href="#cb15-10"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> tb1, <span class="fu">aes</span>(<span class="at">x =</span> factor, <span class="at">y =</span> Max, <span class="at">label =</span>groups), </span>
 <span id="cb15-11" class="hljs-ln-code"><a href="#cb15-11"></a>            <span class="at">size =</span> <span class="dv">3</span>, <span class="at">vjust=</span><span class="sc">-</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb15-12" class="hljs-ln-code"><a href="#cb15-12"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="fu">max</span>(Porcentaje))<span class="sc">+</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-
-<img src="https://oceanexpert.org/uploads/institutes/10047/instituteLogo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
-
-</div>
-</section><section id="alternativas-gráficas.-1-output" class="slide level2 output-location-slide"><h2>Alternativas gráficas.</h2><div class="cell output-location-slide" data-layout-align="center">
+</section>
+<section id="alternativas-gráficas.-1-output" class="slide level2 output-location-slide"><h2>Alternativas gráficas.</h2><div class="cell output-location-slide" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -670,7 +671,65 @@ attr(,"class")
 </figure>
 </div>
 </div>
-</div></section></section>
+</div></section><section id="tamaño-del-efecto." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tamaño del efecto.</h2>
+<div style="font-size: 65%">
+<p><strong>Interpretación</strong>:</p>
+<ul>
+<li><p>Valores cercanos a 0 indican un tamaño de efecto pequeño.</p></li>
+<li><p>Valores alrededor de 0.06 se consideran un tamaño de efecto mediano.</p></li>
+<li><p>Valores mayores a 0.14 se consideran un tamaño de efecto grande</p></li>
+</ul>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">eta_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter | Eta2 |       95% CI
+-------------------------------
+HR        | 0.78 | [0.53, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">omega_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter | Omega2 |       95% CI
+---------------------------------
+HR        |   0.74 | [0.43, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+</div>
+</section>
+<section id="prueba-de-potencia." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Prueba de potencia.</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb20-1" class="hljs-ln-code"><a href="#cb20-1"></a><span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>,<span class="at">n =</span> <span class="dv">5</span>,<span class="at">f =</span> <span class="fl">0.74</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Balanced one-way analysis of variance power calculation 
+
+              k = 3
+              n = 5
+              f = 0.74
+      sig.level = 0.05
+          power = 0.6108441
+
+NOTE: n is number in each group</code></pre>
+</div>
+</div>
+
+<img src="https://oceanexpert.org/uploads/institutes/10047/instituteLogo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
+
+</div>
+</section></section>
     </div>
   </div>
 
