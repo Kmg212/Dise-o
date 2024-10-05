@@ -725,6 +725,68 @@ HR        |   0.74 | [0.43, 1.00]
 NOTE: n is number in each group</code></pre>
 </div>
 </div>
+</section>
+<section id="anexo---prueba-de-anova-de-welch." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Anexo - Prueba de anova de welch.</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">#Tabla de varianza</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">oneway.test</span>(<span class="at">formula =</span>Porcentaje<span class="sc">~</span>HR,<span class="at">data =</span> Datos,<span class="at">var.equal =</span> <span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One-way analysis of means (not assuming equal variances)
+
+data:  Porcentaje and HR
+F = 27.508, num df = 2.0000, denom df = 7.5278, p-value = 0.0003459</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co">#Prueba de multiples rangos.</span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">library</span>(PMCMRplus)</span>
+<span id="cb24-3"><a href="#cb24-3"></a>Resultado<span class="ot">&lt;-</span><span class="fu">gamesHowellTest</span>(Porcentaje<span class="sc">~</span>HR, <span class="at">data =</span> Datos)</span>
+<span id="cb24-4"><a href="#cb24-4"></a><span class="fu">summaryGroup</span>(Resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   mean    sd n Sig. group
+70  7.2 1.789 5          a
+80 16.4 3.050 5          b
+90 16.8 2.775 5          b</code></pre>
+</div>
+</div>
+</section>
+<section id="anexo---prueba-de-kruskall---wallis." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Anexo - Prueba de Kruskall - Wallis.</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb26-1" class="hljs-ln-code"><a href="#cb26-1"></a>Resultado<span class="ot">&lt;-</span><span class="fu">with</span>(Datos, <span class="fu">kruskal</span>(<span class="at">y =</span>Porcentaje, <span class="at">trt =</span> HR))</span>
+<span id="cb26-2" class="hljs-ln-code"><a href="#cb26-2"></a>Resultado</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>$statistics
+     Chisq Df     p.chisq  t.value      MSD
+  9.430521  2 0.008957534 2.178813 3.792637
+
+$parameters
+            test p.ajusted name.t ntr alpha
+  Kruskal-Wallis      none     HR   3  0.05
+
+$means
+   Porcentaje rank      std r Min Max Q25 Q50 Q75
+70        7.2  3.0 1.788854 5   5   9   6   7   9
+80       16.4 10.4 3.049590 5  12  20  15  17  18
+90       16.8 10.6 2.774887 5  14  21  15  16  18
+
+$comparison
+NULL
+
+$groups
+   Porcentaje groups
+90       10.6      a
+80       10.4      a
+70        3.0      b
+
+attr(,"class")
+[1] "group"</code></pre>
+</div>
+</div>
 
 <img src="https://oceanexpert.org/uploads/institutes/10047/instituteLogo.jpg" class="slide-logo r-stretch"><div class="footer footer-default">
 
