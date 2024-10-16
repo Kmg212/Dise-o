@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kenedith Méndez - Gutiérrez">
+
+<title>Modelos de regresión</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Guia4_RLR_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Guia4_RLR_files/libs/quarto-html/quarto.js"></script>
+<script src="Guia4_RLR_files/libs/quarto-html/popper.min.js"></script>
+<script src="Guia4_RLR_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Guia4_RLR_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Guia4_RLR_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Guia4_RLR_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Guia4_RLR_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Guia4_RLR_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Guia4_RLR_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<style>
+
+      .quarto-title-block .quarto-title-banner h1,
+      .quarto-title-block .quarto-title-banner h2,
+      .quarto-title-block .quarto-title-banner h3,
+      .quarto-title-block .quarto-title-banner h4,
+      .quarto-title-block .quarto-title-banner h5,
+      .quarto-title-block .quarto-title-banner h6
+      {
+        color: white;
+      }
+
+      .quarto-title-block .quarto-title-banner {
+        color: white;
+background: #005D0F;
+      }
+</style>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Modelos de regresión</h1>
+            <p class="subtitle lead">Regresión lineal con R y RStudio</p>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kenedith Méndez - Gutiérrez </p>
+            </div>
+    </div>
+      
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenido</h2>
+   
+  <ul>
+  <li><a href="#introducción." id="toc-introducción." class="nav-link active" data-scroll-target="#introducción."><span class="header-section-number">1</span> Introducción.</a></li>
+  <li><a href="#descripción-del-problema" id="toc-descripción-del-problema" class="nav-link" data-scroll-target="#descripción-del-problema"><span class="header-section-number">2</span> Descripción del problema</a></li>
+  <li><a href="#paso-1.-carguemos-los-datos." id="toc-paso-1.-carguemos-los-datos." class="nav-link" data-scroll-target="#paso-1.-carguemos-los-datos."><span class="header-section-number">3</span> Paso 1. Carguemos los datos.</a></li>
+  <li><a href="#paso-2.-verificación-de-supuesto." id="toc-paso-2.-verificación-de-supuesto." class="nav-link" data-scroll-target="#paso-2.-verificación-de-supuesto."><span class="header-section-number">4</span> Paso 2. Verificación de supuesto.</a>
+  <ul class="collapse">
+  <li><a href="#linealidad" id="toc-linealidad" class="nav-link" data-scroll-target="#linealidad"><span class="header-section-number">4.1</span> Linealidad</a></li>
+  <li><a href="#análisis-de-los-residuales." id="toc-análisis-de-los-residuales." class="nav-link" data-scroll-target="#análisis-de-los-residuales."><span class="header-section-number">4.2</span> Análisis de los residuales.</a>
+  <ul class="collapse">
+  <li><a href="#creación-del-modelo" id="toc-creación-del-modelo" class="nav-link" data-scroll-target="#creación-del-modelo"><span class="header-section-number">4.2.1</span> Creación del modelo</a></li>
+  <li><a href="#supuestos-sobre-los-residuales." id="toc-supuestos-sobre-los-residuales." class="nav-link" data-scroll-target="#supuestos-sobre-los-residuales."><span class="header-section-number">4.2.2</span> Supuestos sobre los residuales.</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#paso-3.-inferencia-y-estimación-de-los-parámetros-de-los-modelos." id="toc-paso-3.-inferencia-y-estimación-de-los-parámetros-de-los-modelos." class="nav-link" data-scroll-target="#paso-3.-inferencia-y-estimación-de-los-parámetros-de-los-modelos."><span class="header-section-number">5</span> Paso 3. Inferencia y estimación de los parámetros de los modelos.</a></li>
+  <li><a href="#paso-4.-opción-gráfica." id="toc-paso-4.-opción-gráfica." class="nav-link" data-scroll-target="#paso-4.-opción-gráfica."><span class="header-section-number">6</span> Paso 4. Opción Gráfica.</a></li>
+  <li><a href="#paso-5.-tamaño-del-efecto-y-potencia." id="toc-paso-5.-tamaño-del-efecto-y-potencia." class="nav-link" data-scroll-target="#paso-5.-tamaño-del-efecto-y-potencia."><span class="header-section-number">7</span> Paso 5. Tamaño del efecto y potencia.</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="introducción." class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introducción.</h1>
+<p>Los modelos de regresión son un conjunto de técnicas estadísticas utilizadas para entender la relación entre una variable dependiente y una o más variables independientes. Este método permite predecir el comportamiento de la variable dependiente a partir de cambios en las variables independientes, siendo fundamental en diversas disciplinas como la economía, la biología y la ingeniería. Al aplicar un modelo de regresión sobre un conjunto de datos, se pueden identificar patrones y tendencias en los datos, facilitando la toma de decisiones informadas y la elaboración de estrategias basadas en evidencia. A través de su análisis, los investigadores pueden validar hipótesis y explorar cómo diferentes factores influyen en los resultados, lo que lo convierte en una herramienta esencial.</p>
+<p>El modelo se define según el tipo de tendencia de los datos. A continuación se muestra la estructura de la creación del modelo en R para diferentes tendencia donde la variable de respuesta es <code>weight</code>y la variable predictora o independiente es <code>length</code>:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Tendencia</th>
+<th style="text-align: center;">Modelo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Líneal</td>
+<td style="text-align: center;"><code>modelo&lt;-lm(weight~length, data = Datos)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Exponencial</td>
+<td style="text-align: center;"><code>modelo&lt;-lm(log(weight)~length, data = Datos)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Potencia</td>
+<td style="text-align: center;"><code>modelo&lt;-lm(log(weight)~log(length), data = Datos)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">logarítmica</td>
+<td style="text-align: center;"><code>modelo&lt;-lm(weight~log(length), data = Datos)</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Cuadrática</td>
+<td style="text-align: center;"><code>modelo&lt;-lm(weight~length+I(length^2), data = Datos)</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="descripción-del-problema" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Descripción del problema</h1>
+<p>Se desea probar la efectividad de un nuevo fungicida para el control de roya en trigo. Se probaron distintas dosis en gramos del principio activo del producto por ha (gr.p.a./ha) en 13 parcelas de 100 plantas cada una. A los 15 días de la aplicación se realizó una evaluación del daño en términos del tamaño promedio de las machas en hoja bandera (Di Rienzo. Estadística para ciencias agropecuarias). Los resultados se muestran en la siguiente tabla:</p>
+<hr>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Dosis</th>
+<th style="text-align: center;">Daño</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">75</td>
+<td style="text-align: center;">54</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">275</td>
+<td style="text-align: center;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">58</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">250</td>
+<td style="text-align: center;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">325</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">350</td>
+<td style="text-align: center;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">425</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">300</td>
+<td style="text-align: center;">25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">125</td>
+<td style="text-align: center;">48</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">375</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="paso-1.-carguemos-los-datos." class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Paso 1. Carguemos los datos.</h1>
+<p>Generaremos dos vectores uno para cada variable independiente (X) bajo los nombres <strong>“Dosis”</strong> y otro para la variable dependiente (Y) bajo el nombre <strong>“Daño”</strong> y los agruparemos en un objeto de naturaleza tabla de datos bajo el nombre <strong>“A”</strong>.</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Dosis<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">75</span>,<span class="dv">275</span>,<span class="dv">50</span>,<span class="dv">250</span>,<span class="dv">325</span>,<span class="dv">350</span>,<span class="dv">425</span>,<span class="dv">300</span>,<span class="dv">125</span>,<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">375</span>,<span class="dv">400</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Daño<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">54</span>,<span class="dv">30</span>,<span class="dv">58</span>,<span class="dv">35</span>,<span class="dv">20</span>,<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">25</span>,<span class="dv">48</span>,<span class="dv">50</span>,<span class="dv">39</span>,<span class="dv">10</span>,<span class="dv">5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>A<span class="ot">&lt;-</span><span class="fu">data.frame</span>(Dosis,Daño)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="paso-2.-verificación-de-supuesto." class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Paso 2. Verificación de supuesto.</h1>
+<p>Como el análisis de regresión lineal es una técnica parámetrica es necesario verificar los supuesto, en este caso linealidad entre X e Y, distribución normal de los residuales con media cero y variancia constante e independientes.</p>
+<section id="linealidad" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="linealidad"><span class="header-section-number">4.1</span> Linealidad</h2>
+<p>Para el primer supuesto realizaremos un gráfico de dispersión y así determinar de manera visual si los puntos se agrupan formando una linea recta:</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(A,<span class="fu">aes</span>(<span class="at">x =</span> Dosis,<span class="at">y =</span> Daño))<span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch=</span><span class="dv">20</span>,<span class="at">size=</span><span class="dv">4</span>,)<span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span>,<span class="at">formula =</span> <span class="st">'y ~ x'</span>,<span class="at">method =</span> <span class="st">'loess'</span>)<span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Dosis del fungicida (g/ha)"</span>,<span class="at">y=</span><span class="st">"Aréa de la lesión de la roya en las hojas banderas"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Guia4_RLR_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="análisis-de-los-residuales." class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="análisis-de-los-residuales."><span class="header-section-number">4.2</span> Análisis de los residuales.</h2>
+<p>Para los siguientes supuestos realizaremos el análisis de los residuales donde verificaremos el ajuste a la distribución normal con la función <code>"shapiro.test()"</code> , homocedasticidad con la función <code>"bptest()"</code> ubicada en la libreria <code>"lmtest"</code> e independecia de los residuales del modelo con la función <code>"dwtest"</code> ubicada en la librería <code>"lmtest"</code>, para ello primero se debe crear el modelo y guardarlo en un objeto con el mismo nombre usando la función<code>"lm()"</code> de modelos lineales.</p>
+<section id="creación-del-modelo" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="creación-del-modelo"><span class="header-section-number">4.2.1</span> Creación del modelo</h3>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>modelo<span class="ot">&lt;-</span><span class="fu">lm</span>(Daño<span class="sc">~</span>Dosis,<span class="at">data=</span>A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="supuestos-sobre-los-residuales." class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="supuestos-sobre-los-residuales."><span class="header-section-number">4.2.2</span> Supuestos sobre los residuales.</h3>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalidad de los residuales.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(modelo<span class="sc">$</span>residuals) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  modelo$residuals
+W = 0.88771, p-value = 0.09078</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Homocedasticidad-varianza constante.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(modelo) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo
+BP = 0.42542, df = 1, p-value = 0.5142</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Independencia</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo,<span class="at">alternative=</span><span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo
+DW = 2.3774, p-value = 0.5769
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Gráficas</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo, <span class="at">pch=</span><span class="dv">19</span>, <span class="at">col=</span><span class="st">"blue"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Guia4_RLR_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Al realizar el análisis de los residuales del modelo, el test de normalidad shapiro &amp; wilks verificó un ajuste de los residuales del modelo a la distribución normal, <span class="math inline">\(\ W(13)=0.89, p=0.09\)</span>; además, el test de Breusch-Pagan corroboró que los residuales se distribuyen con varianza constante,<span class="math inline">\(\ BP(1)=0.42, p=0.51\)</span> y por último el test de Durbin - Watson arrojó que no existe autocorrelación significativa en los residuales de orden 1, <span class="math inline">\(\ DW=2.38, p=0.59\)</span>, por lo que desde el punto de vista estadístico podemos proceder con el análisis de regresión lineal para responder a la pregunta ¿Cuál es la relación que existe entre la dosis del fungicida y el daño foliar ocacionado por la roya de trigo en a hojas banderas? y contrastar las hipótesis, <span class="math inline">\(\ H_0:\)</span> No existe relación lineal entre la dosis del fungicida y el daño en ocacionado por la roya de trigo en la hojas banderas vs <span class="math inline">\(\ H_1:\)</span> Existe relación lineal entre la dosis del fungicida y el daño foliar ocacionado por la roya de trigo en la hojas banderas.</p>
+</section>
+</section>
+</section>
+<section id="paso-3.-inferencia-y-estimación-de-los-parámetros-de-los-modelos." class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Paso 3. Inferencia y estimación de los parámetros de los modelos.</h1>
+<p>Para dar respuesta a nuestras hipótesis de contrastes en base a la información suministrada, usaremos la función <code>"summary()"</code> que nos permitirá observar la tabla de inferencia de los parámetros de nuestro modelo y así contrastar si los betas son diferentes de cero, de manera concreta para nuestro poblema tenemos:</p>
+<p><strong>Para</strong> <span class="math inline">\(\beta_0\)</span> - Intercepto.</p>
+<p><span class="math inline">\(\ H_0:\)</span> La recta pasa por el origen, es decir que el daño ocacionado por la roya en la hojas banderas de plántulas de trigo es cero sin aplicar el fungicida.</p>
+<p><span class="math inline">\(\ H_1:\)</span> La recta no pasa por el origen, es decir que el daño ocacionado por la roya en la hojas banderas de plántulas de trigo es diferente de cero sin aplicar el fungicida.</p>
+<p><strong>Para</strong> <span class="math inline">\(\beta_1\)</span> - Pendiente.</p>
+<p><span class="math inline">\(\ H_0:\)</span> La pendiente es cero, es decir que la dosis del fungicida no influye de manera lineal en el daño ocasionado por la roya en la hojas banderas del trigo.</p>
+<p><span class="math inline">\(\ H_1:\)</span> La pendiente es diferente de cero, es decir que la dosis del fungicida influye de manera lineal en el daño ocasionado por la roya en la hojas banderas del trigo.</p>
+<p>Adicionalmente con la función <code>"cor.test()"</code> evaluaremos la significancia de la relación entre X e Y, y con la función <code>"confit()"</code> estimaremos el valor de cada uno de los parámetros del modelo por intervalos con un 95% de confianza. :::</p>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Daño ~ Dosis, data = A)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-2.864 -2.128 -1.137  1.778  5.231 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 67.033382   1.774572   37.77 5.41e-13 ***
+Dosis       -0.149057   0.006363  -23.43 9.74e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.837 on 11 degrees of freedom
+Multiple R-squared:  0.9804,    Adjusted R-squared:  0.9786 
+F-statistic: 548.8 on 1 and 11 DF,  p-value: 9.737e-11</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> Dosis, <span class="at">y=</span>Daño,<span class="at">data=</span>A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  Dosis and Daño
+t = -23.427, df = 11, p-value = 9.737e-11
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.9971316 -0.9663039
+sample estimates:
+       cor 
+-0.9901267 </code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 2.5 %     97.5 %
+(Intercept) 63.1275757 70.9391878
+Dosis       -0.1630606 -0.1350526</code></pre>
+</div>
+</div>
+<p>El analisis de correlación reveló que existe una relación lineal significativa inversa fuerte entre la dosis del fungicida en (g/ha) y el daño foliar en las hojas banderas que ocaciona la roya en el trigo, <span class="math inline">\(\ t(11)=-23.43, p&lt;0.001, r=-0.99\)</span>. A su vez la prueba F arrojada por análisis de regresión determinó que es posible explicar con un modelo de regresión lineal el efecto de la dosis del fungicida sobre la magnitud del daño foliar que ocaciona la roya de trigo, <span class="math inline">\(\ F(1,11)=548.8, p&lt;0.001\)</span>, con un daño foliar significativo por defecto que se estima en <em>IC95%</em>[63.13 - 70.94], <span class="math inline">\(\ t(11)=37.77, p&lt;0.001\)</span>, y un efecto positivo del fungicida sobre el daño, donde por cada g/ha que aumenta la dosis se estima una disminución del daño foliar en <em>IC95%</em>[0.13: 0.16], <span class="math inline">\(\ t(11)=-23.43, p&lt;0.001\)</span>, teniendo así la siguiente ecuación para predecir el daño foliar en la hojas banderas con dosis de aplicación del fungicida entre 50 y 425 gr/ha con un ajuste del 98%, <span class="math inline">\(\widehat{Daño}=67.033-0.149*Dosis\)</span>.</p>
+</section>
+<section id="paso-4.-opción-gráfica." class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Paso 4. Opción Gráfica.</h1>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2);<span class="fu">library</span>(ggpubr)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(A,<span class="fu">aes</span>(<span class="at">x =</span> Dosis,<span class="at">y =</span> Daño))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">pch=</span><span class="dv">20</span>,<span class="at">size=</span><span class="dv">4</span>,)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">TRUE</span>,<span class="at">formula =</span> <span class="st">'y ~ x'</span>,<span class="at">method =</span> <span class="st">'lm'</span>, <span class="at">alpha=</span><span class="fl">0.3</span>, <span class="at">fill=</span><span class="st">"lightblue"</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Dosis del fungicida (g/ha)"</span>,<span class="at">y=</span><span class="st">"Aréa de la lesión de la roya en las hojas banderas"</span>)<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_regline_equation</span>(<span class="fu">aes</span>(<span class="at">label =</span>  <span class="fu">paste</span>(..eq.label.., ..adj.rr.label.., </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">sep =</span> <span class="st">"~~~~~"</span>)),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                        <span class="at">label.x =</span> <span class="dv">300</span>, <span class="at">label.y =</span> <span class="dv">60</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Guia4_RLR_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="624"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="paso-5.-tamaño-del-efecto-y-potencia." class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Paso 5. Tamaño del efecto y potencia.</h1>
+<div class="cell" data-layout-align="center">
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Efecto</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">omega_squared</span>(modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter | Omega2 |       95% CI
+---------------------------------
+Dosis     |   0.98 | [0.94, 1.00]
+
+- One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#potencia</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">u =</span> <span class="dv">1</span>,<span class="at">v =</span> <span class="dv">11</span>, <span class="at">f2 =</span> <span class="fl">0.98</span>,<span class="at">sig.level =</span> <span class="fl">0.05</span>) <span class="co">#Retrospectiva</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Multiple regression power calculation 
+
+              u = 1
+              v = 11
+             f2 = 0.98
+      sig.level = 0.05
+          power = 0.9004923</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.f2.test</span>(<span class="at">u =</span> <span class="dv">1</span>, <span class="at">f2 =</span> <span class="fl">0.98</span>,<span class="at">sig.level =</span> <span class="fl">0.05</span>,<span class="at">power =</span> <span class="fl">0.8</span>) <span class="co">#prospectiva</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Multiple regression power calculation 
+
+              u = 1
+              v = 8.333272
+             f2 = 0.98
+      sig.level = 0.05
+          power = 0.8</code></pre>
+</div>
+<details open="">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculo de n</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">9</span><span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 11</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
