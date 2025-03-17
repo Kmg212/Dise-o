@@ -1,0 +1,39 @@
+/*-- scss:defaults --*/
+
+// fonts
+$font-family-sans-serif: Serif !default;
+
+// colors
+$body-color: #000 !default;
+$link-color: #0a369d !default;
+$selection-bg: #d62828 !default;
+
+.reveal {
+  background-image: url("https://img.freepik.com/vector-gratis/fondo-minimalista-dibujado-mano_23-2149017896.jpg?t=st=1723582608~exp=1723586208~hmac=87c4d8c2402726d68f1a228fb28b9c11b0b8d7c2436b357ca39c3436c8011bde&w=996") ;
+  background-size: cover ;
+  background-position: center;
+}
+
+// headings
+$presentation-heading-font: Serif !default;
+
+/*-- scss:rules --*/
+.reveal body{
+  font-size: 5;
+}
+
+.reveal h1 {
+  font-size: 10;
+  color:#000484 ;
+}
+
+.reveal h2 {
+  color: #000484;
+  font-size: 5;
+}
+
+.reveal h3 {
+  color: #000484;
+  font-size: 8;
+}
+
