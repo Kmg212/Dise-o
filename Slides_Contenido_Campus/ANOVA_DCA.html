@@ -435,14 +435,13 @@ Kenedith Méndez - Gutiérrez
 <h2 data-id="quarto-animate-title">Librerías.</h2>
 <p>Recuerde que debe instalar previamente la(s) librería(s) que no ha utilizado antes.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb1-1" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(ggplot2) </span>
-<span id="cb1-2" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(tidyverse) </span>
-<span id="cb1-3" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(agricolae) </span>
-<span id="cb1-4" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(descriptr)</span>
-<span id="cb1-5" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb1-6" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb1-7" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(pwr)</span>
-<span id="cb1-8" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(effectsize)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb1-1" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(ggplot2) <span class="co"># Para Gráficos</span></span>
+<span id="cb1-2" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(tidyverse) <span class="co">#Para Ajustar y manipular tabla de datos</span></span>
+<span id="cb1-3" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(agricolae) <span class="co">#Prueba post-hoc, kruskall</span></span>
+<span id="cb1-4" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(ggpubr) <span class="co">#Gráfico</span></span>
+<span id="cb1-5" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(lmtest) <span class="co">#Supuesto de independencia.</span></span>
+<span id="cb1-6" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(pwr) <span class="co"># Para Potencia estadística.</span></span>
+<span id="cb1-7" class="hljs-ln-code"><a href=""></a><span class="fu">library</span>(effectsize) <span class="co">#Para tamaño del efecto.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 
@@ -560,7 +559,7 @@ alternative hypothesis: true autocorrelation is not 0</code></pre>
 <p><strong>Objetivo:</strong> Determinar si hay diferencias significativas en porcentaje de semillas atacadas por hongos para diferentes % de HR.</p>
 <p><strong>Hipótesis estadísticas:</strong></p>
 <p><span class="math inline">\(H_0:=\)</span> No hay diferencias en el porcentaje de semillas atacadas por hongos entre los diferentes % de HR.</p>
-<p><span class="math inline">\(H_1:=\)</span> Entre al menos un par de % HR hay diferencias en el porcentaje de semillas atacadas por hongos.</p>
+<p><span class="math inline">\(H_1:=\)</span> Entre al menos un par de niveles de %HR hay diferencias en el porcentaje de semillas atacadas por hongos.</p>
 <p><strong>Regla de Interpretación.</strong> Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>. mientras que valores de p menores respaldan la <span class="math inline">\(H_1\)</span>.</p>
 </div>
 <div class="cell" data-layout-align="center">
@@ -675,17 +674,33 @@ attr(,"class")
 </div></section><section id="tamaño-del-efecto." class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Tamaño del efecto.</h2>
 <div style="font-size: 65%">
-<p><strong>Interpretación</strong>:</p>
+<p><strong>Tamaño de efecto según cohens</strong>.</p>
+<p>f de cohes es la magnitud de la diferencia real entre los grupos, dónde los valores comunes son 0.1 (pequeño), 0.25 (mediano) y 0.40 (grande). (Cohen,1988)</p>
+<p><strong>Interpretación para eta y omega cuadrado, según Field (2013):</strong></p>
 <ul>
-<li><p>Valores cercanos a 0 indican un tamaño de efecto pequeño.</p></li>
-<li><p>Valores alrededor de 0.06 se consideran un tamaño de efecto mediano.</p></li>
-<li><p>Valores mayores a 0.14 se consideran un tamaño de efecto grande</p></li>
+<li><p>Valores &lt;0.01 indican un tamaño de efecto muy pequeño.</p></li>
+<li><p>Valores entre 0.01-0.06 indican un tamaño de efecto pequeño.</p></li>
+<li><p>Valores entre 0.06-0.14 se consideran un tamaño de efecto mediano.</p></li>
+<li><p>Valores mayores a 0.14 se consideran un tamaño de efecto grande.</p></li>
 </ul>
 </div>
+</section>
+<section id="tamaño-del-efecto.-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Tamaño del efecto.</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">eta_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a><span class="fu">cohens_f</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code># Effect Size for ANOVA
+
+Parameter | Cohen's f |      95% CI
+-----------------------------------
+HR        |      1.91 | [1.06, Inf]
+
+- One-sided CIs: upper bound fixed at [Inf].</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">eta_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Effect Size for ANOVA
 
@@ -695,7 +710,7 @@ HR        | 0.78 | [0.53, 1.00]
 
 - One-sided CIs: upper bound fixed at [1.00].</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a><span class="fu">omega_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href=""></a><span class="fu">omega_squared</span>(<span class="at">model =</span> modelo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Effect Size for ANOVA
 
@@ -710,7 +725,7 @@ HR        |   0.74 | [0.43, 1.00]
 <section id="prueba-de-potencia." class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Prueba de potencia.</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb20-1" class="hljs-ln-code"><a href=""></a><span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>,<span class="at">n =</span> <span class="dv">5</span>,<span class="at">f =</span> <span class="fu">sqrt</span>(<span class="fl">0.74</span><span class="sc">/</span>(<span class="dv">1</span><span class="fl">-0.74</span>)), <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb22-1" class="hljs-ln-code"><a href=""></a><span class="fu">pwr.anova.test</span>(<span class="at">k =</span> <span class="dv">3</span>,<span class="at">n =</span> <span class="dv">5</span>,<span class="at">f =</span> <span class="fl">1.91</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
@@ -719,9 +734,9 @@ HR        |   0.74 | [0.43, 1.00]
 
               k = 3
               n = 5
-              f = 1.687055
+              f = 1.91
       sig.level = 0.05
-          power = 0.9996105
+          power = 0.9999778
 
 NOTE: n is number in each group</code></pre>
 </div>
@@ -730,8 +745,8 @@ NOTE: n is number in each group</code></pre>
 <section id="anexo---prueba-de-anova-de-welch." class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Anexo - Prueba de anova de welch.</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href=""></a><span class="co">#Tabla de varianza</span></span>
-<span id="cb22-2"><a href=""></a><span class="fu">oneway.test</span>(<span class="at">formula =</span>Porcentaje<span class="sc">~</span>HR,<span class="at">data =</span> Datos,<span class="at">var.equal =</span> <span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="co">#Tabla de varianza</span></span>
+<span id="cb24-2"><a href=""></a><span class="fu">oneway.test</span>(<span class="at">formula =</span>Porcentaje<span class="sc">~</span>HR,<span class="at">data =</span> Datos,<span class="at">var.equal =</span> <span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
@@ -741,10 +756,10 @@ NOTE: n is number in each group</code></pre>
 data:  Porcentaje and HR
 F = 27.508, num df = 2.0000, denom df = 7.5278, p-value = 0.0003459</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href=""></a><span class="co">#Prueba de multiples rangos.</span></span>
-<span id="cb24-2"><a href=""></a><span class="fu">library</span>(PMCMRplus)</span>
-<span id="cb24-3"><a href=""></a>Resultado<span class="ot">&lt;-</span><span class="fu">gamesHowellTest</span>(Porcentaje<span class="sc">~</span>HR, <span class="at">data =</span> Datos)</span>
-<span id="cb24-4"><a href=""></a><span class="fu">summaryGroup</span>(Resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href=""></a><span class="co">#Prueba de multiples rangos.</span></span>
+<span id="cb26-2"><a href=""></a><span class="fu">library</span>(PMCMRplus)</span>
+<span id="cb26-3"><a href=""></a>Resultado<span class="ot">&lt;-</span><span class="fu">gamesHowellTest</span>(Porcentaje<span class="sc">~</span>HR, <span class="at">data =</span> Datos)</span>
+<span id="cb26-4"><a href=""></a><span class="fu">summaryGroup</span>(Resultado)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   mean    sd n Sig. group
 70  7.2 1.789 5          a
@@ -756,8 +771,8 @@ F = 27.508, num df = 2.0000, denom df = 7.5278, p-value = 0.0003459</code></pre>
 <section id="anexo---prueba-de-kruskal---wallis." class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Anexo - Prueba de Kruskal - Wallis.</h2>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb26-1" class="hljs-ln-code"><a href=""></a>Resultado<span class="ot">&lt;-</span><span class="fu">with</span>(Datos, <span class="fu">kruskal</span>(<span class="at">y =</span>Porcentaje, <span class="at">trt =</span> HR))</span>
-<span id="cb26-2" class="hljs-ln-code"><a href=""></a>Resultado</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb28-1" class="hljs-ln-code"><a href=""></a>Resultado<span class="ot">&lt;-</span><span class="fu">with</span>(Datos, <span class="fu">kruskal</span>(<span class="at">y =</span>Porcentaje, <span class="at">trt =</span> HR))</span>
+<span id="cb28-2" class="hljs-ln-code"><a href=""></a>Resultado</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
@@ -786,6 +801,27 @@ $groups
 
 attr(,"class")
 [1] "group"</code></pre>
+</div>
+</div>
+</section>
+<section id="anexo---prueba-de-multiples-rangos-pairwise.wilcox.test." class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Anexo - Prueba de multiples rangos: pairwise.wilcox.test.</h2>
+<p>En caso de emplear las prueba Kruskal - Wallis y esta resulte significativa, se puede tambien emplear para los contrastes entre pares de niveles el text de wilcox usando la función <code>pairwise.wilcox.test()</code> con argumentos <code>x=Variable de respuesta</code> y <code>g=Factor</code> .</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb30-1" class="hljs-ln-code"><a href=""></a><span class="fu">pairwise.wilcox.test</span>(<span class="at">x =</span> Datos<span class="sc">$</span>Porcentaje,<span class="at">g =</span> Datos<span class="sc">$</span>HR,<span class="at">p.adjust.method =</span> <span class="st">"bonf"</span>,<span class="at">paired =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-layout-align="center">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+
+data:  Datos$Porcentaje and Datos$HR 
+
+   70    80   
+80 0.036 -    
+90 0.036 1.000
+
+P value adjustment method: bonferroni </code></pre>
 </div>
 </div>
 <div class="quarto-auto-generated-content">
