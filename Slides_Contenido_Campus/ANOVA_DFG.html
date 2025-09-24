@@ -430,10 +430,10 @@ Kenedith Méndez - Gutiérrez
 <section id="tabla-de-datos" class="slide level2" data-auto-animate="true">
 <h2 data-id="quarto-animate-title">Tabla de datos</h2>
 <div style="font-size: 50%">
-<table class="caption-top" style="width:97%;">
+<table class="caption-top" style="width:96%;">
 <colgroup>
 <col style="width: 29%">
-<col style="width: 23%">
+<col style="width: 22%">
 <col style="width: 22%">
 <col style="width: 22%">
 </colgroup>
@@ -573,13 +573,13 @@ W = 0.97767, p-value = 0.6664</code></pre>
 <p><strong>Regla de Interpretación.</strong> Valores de p mayores o iguales al nivel de significancia respaldan la <span class="math inline">\(H_o\)</span>, mientras que valores de p menores respaldan la <span class="math inline">\(H_1\)</span>.</p>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">summary.aov</span>(<span class="fu">lm</span>(modelo<span class="sc">$</span>fitted.values<span class="sc">~</span>modelo<span class="sc">$</span>residuals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href=""></a><span class="fu">summary.aov</span>(<span class="fu">lm</span>(modelo<span class="sc">$</span>residuals<span class="sc">~</span>modelo<span class="sc">$</span>fitted.values))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell fragment" data-layout-align="center">
 <div class="cell-output cell-output-stdout">
-<pre><code>                 Df Sum Sq Mean Sq F value Pr(&gt;F)
-modelo$residuals  1    0.0   0.000       0      1
-Residuals        34  277.6   8.165               </code></pre>
+<pre><code>                     Df Sum Sq Mean Sq F value Pr(&gt;F)
+modelo$fitted.values  1    0.0   0.000       0      1
+Residuals            34  254.9   7.499               </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href=""></a>DatosC<span class="ot">&lt;-</span>Datos <span class="sc">%&gt;%</span> <span class="fu">unite</span>(<span class="fu">c</span>(Marca, Día), <span class="at">col =</span> <span class="st">"Marca:Día"</span>,</span>
 <span id="cb8-2"><a href=""></a>                   <span class="at">sep =</span> <span class="st">":"</span>,<span class="at">remove =</span> <span class="cn">FALSE</span>)</span>
